@@ -20,7 +20,7 @@ import datetime
 import traceback
 
 
-#region FUNC
+# CLASSES
 class Data:
     def __init__(self):
         self.km = 0
@@ -50,8 +50,9 @@ class Well:
         self.debts = []
         self.S = []
 
-
+# FUNCTIONS
 def log(exc):
+    '''Log errors to file'''
     now = datetime.datetime.now()
     try:
         with open(f'error_log_{now.hour}-{now.minute}.txt', 'w') as file:
@@ -61,10 +62,12 @@ def log(exc):
 
 
 def distance(well, x, y):
+    '''Calculate distance between well and point'''
     return ((well.x - x)**2 + (well.y - y)**2)**0.5
 
 
 def load_excel_file(file_name):
+    '''Load excel data file'''
     wb = op.load_workbook(file_name)
     ws = wb['DATA']
     data = Data()
@@ -110,6 +113,7 @@ def load_excel_file(file_name):
 
 
 def calculate_table(data):
+    '''Calculate decline table'''
     wb_out = op.Workbook()
     ws_out = wb_out.active
     first_row = ['WELL', 'X', 'Y', 'R']
@@ -142,6 +146,7 @@ def calculate_table(data):
 
 
 def calculate_grid(data, grid, margin, step, pb):
+    '''Calculate water table decline 2d grid'''
     grid = Grid()
     grid.XX = [well.x for well in data.wells]
     grid.YY = [well.y for well in data.wells]
@@ -183,6 +188,7 @@ def calculate_grid(data, grid, margin, step, pb):
 
 
 def write_grid(grid):
+    '''Write grid data to file'''
     grd = 'DSAA\n'
     grd += str(len(grid.X[0])) + ' ' + str(len(grid.X)) + '\n'
     grd += str(grid.X[0][0]) + ' ' + str(grid.X[0][-1]) + '\n'
@@ -224,9 +230,8 @@ def plot_grid(data, grid):
     os.system('start ""  RESULT.png"')
 
 
-#endregion FUNC
 
-#region GUI
+# GUI
 root = Tk()
 root.geometry("+800+200")
 root.resizable(False, False)

@@ -1,8 +1,8 @@
 """
-Заполнение пустых строк в таблице пропластков
-Обязательные колонки: Н_скв, ZK, ZP, COLL
-Все параметры в пустых строках будут заполнены - 0
-Формат входного  файла "D:\\Takkand_D\\Desktop\\out.csv":
+Fill blank row in layers table
+Mandatory columns: Н_скв, ZK, ZP, COLL
+Fll blank cell will be set to - 0
+Input file format "D:\\Takkand_D\\Desktop\\out.csv":
 Н_скв	ZK	ZP	ZKA	ZPA	COLL	ZONE	APS	KP	KPR
 100	1200	1200.2	1120.2	1120.4	0	-9999.99	0	0	0
 100	1200.2	1245.9	1120.4	1166.1	0	-9999.99	0	0	0
@@ -16,19 +16,23 @@ import pandas as pd
 
 def main():
     print("Processing")
-    df = pd.read_csv("D:\\Takkand_D\\Desktop\\out.csv", encoding='ansi')
+    
+    iunput_file = "D:\\Takkand_D\\Desktop\\out.csv"
+    output_file = "D:\\Takkand_D\\Desktop\\result.xlsx"
+
+    df = pd.read_csv(iunput_file, encoding='ansi')
 
     wb = op.Workbook()
     ws = wb.active
 
-    # Колонки в файле
-    base = ["Н_скв", "ZK", "ZP"]
-    coll = "COLL"
-    params = [i for i in df.columns if i not in base and i != coll]
+    # Columns in file
+    base_columns = ["Н_скв", "ZK", "ZP"]
+    collector = "COLL"
+    params = [i for i in df.columns if i not in base_columns and i != collector]
 
     cols, rows = df.shape
 
-    # добавляем шапку
+    # Add header
     row = ["Н_скв", "ZK", "ZP"]
     [row.append(i) for i in params]
     row.append("COLL")
@@ -59,8 +63,8 @@ def main():
             row.append(df["COLL"][index])
             ws.append(row)
 
-    wb.save("D:\\Takkand_D\\Desktop\\result.xlsx")
-    os.system('start ""  D:\\Takkand_D\\Desktop\\result.xlsx"')
+    wb.save()
+    os.system(f'start ""  {output_file}')
     print(f"time elapsed {time.perf_counter()}")
 
 

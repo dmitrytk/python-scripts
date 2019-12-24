@@ -1,5 +1,5 @@
 """
-Convert xlsx file to sqlite db
+Load xlsx data to sqlite db
 Format of data.xlsx file:
 WELL	DATE	RATE
 SVA-1063	01.03.2018 5:00	1258.560059
@@ -13,11 +13,13 @@ import pandas as pd
 import time
 import sqlite3
 
-print('processing')
+input_file = 'data.xlsx'
+output_file = 'data.sqlite'
 
 def main():
-	df = pd.read_excel('data.xlsx')
-	conn = sqlite3.connect("data.sqlite")
+	print('processing')
+	df = pd.read_excel(input_file)
+	conn = sqlite3.connect(output_file)
 	cursor = conn.cursor()
 	df.to_sql("data", con=conn, if_exists='replace')
 

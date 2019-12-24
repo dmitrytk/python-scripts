@@ -1,65 +1,42 @@
-#create separate .inc file for each well
-#Excel file template
-#WELL    MD  INCL    AZIM
-#551 10  0.15    0
-#551 20  0.15    0
-#551 30  0.27    0
+'''
+Create separate .inc file for each well
+Excel file template (case sensitive):
+WELL    MD  INCL    AZIM
+551 10  0.15    0
+551 20  0.15    0
+551 30  0.27    0
+'''
 
-import openpyxl as op
 import os
 import glob
 import time
+import pandas as pd
 
-os.system("cls")
+
+input_file = "incline.xlsx"
+output_dir = 'inc'
 
 
-class Well:
-    def __init__(self, name):
-        self.name = name
-        self.md = []
-        self.inc = []
-        self.azim = []
+def list_to_txt(output_file, content):
+    '''Write 2d list to text file'''
+    result_str = ''
+    for row in content:
+        result_str +=  '\t'.join([str(i) for i in row]) + '\n'
+    with open(output_file, 'w') as f:
+        f.write(result_str)
 
 
 def main():
-    wells = []
+    df = pd.read_excel(input_file)
+    wells = set(df.WELL)
 
-    wb = op.load_workbook("INCL.xlsx")
-    ws = wb.active
-
-    wells.append(Well(ws[2][0].value))
-    wells[-1].md.append(ws[2][1].value)
-    wells[-1].inc.append(ws[2][2].value)
-    wells[-1].azim.append(ws[2][3].value)
-
-    for row in ws.iter_rows(min_row=3):
-        if wells[-1].name == row[0].value:
-            wells[-1].md.append(row[1].value)
-            wells[-1].inc.append(row[2].value)
-            wells[-1].azim.append(row[3].value)
-        else:
-            wells.append(Well(row[0].value))
-            wells[-1].md.append(row[1].value)
-            wells[-1].inc.append(row[2].value)
-            wells[-1].azim.append(row[3].value)
-
-    print(len(wells))
-
-    try:
-        os.mkdir("inc")
-    except Exception as e:
-        pass
+    if not os.path.exists(output_dir):
+        os.mkdir(output_dir)
 
     for well in wells:
-        txt = "MD\tINC\tAZIM\n"
-        for i in range(len(well.md)):
-            txt += str(well.md[i]) + "\t" + str(well.inc[i]) + "\t" + str(
-                well.azim[i]) + "\n"
-
-        with open(f"inc/{well.name}.inc", "w") as f:
-            f.write(txt)
-
-    print(f"Done in {time.perf_counter()} sec")
+        well_df = df[df.WELL==well]
+        result_list = [list(well_df)] + well_df.values.tolist()
+        list_to_txt(f"./{output_dir}/{str(well)}.inc", result_list)
 
 
 if __name__ == "__main__":
