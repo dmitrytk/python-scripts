@@ -7,7 +7,8 @@ Input file: ./templates/sub_template.xlsx
 from tkinter import *
 from tkinter import messagebox
 import tkinter.ttk as ttk
-import time, threading
+import time
+import threading
 from tkinter import filedialog
 import os
 import matplotlib.pyplot as plt
@@ -51,6 +52,8 @@ class Well:
         self.S = []
 
 # FUNCTIONS
+
+
 def log(exc):
     '''Log errors to file'''
     now = datetime.datetime.now()
@@ -230,7 +233,6 @@ def plot_grid(data, grid):
     os.system('start ""  RESULT.png"')
 
 
-
 # GUI
 root = Tk()
 root.geometry("+800+200")
@@ -342,6 +344,6 @@ load_button.grid(row=5, column=0, padx=2, pady=2, sticky="e")
 calc_button = Button(text="Расчет", command=calculate)
 calc_button.grid(row=5, column=1, padx=2, pady=2, sticky=E + W)
 calc_button['state'] = 'disabled'
-#endregion GUI
+# endregion GUI
 
 root.mainloop()

@@ -8,6 +8,7 @@ Input file format "D:\\Takkand_D\\Desktop\\out.csv":
 100	1200.2	1245.9	1120.4	1166.1	0	-9999.99	0	0	0
 100	1245.9	1248.8	1166.1	1169	1	Покурская верхняя	0.639	24.515	12.408
 """
+
 import os
 import time
 import openpyxl as op
@@ -16,7 +17,7 @@ import pandas as pd
 
 def main():
     print("Processing")
-    
+
     iunput_file = "D:\\Takkand_D\\Desktop\\out.csv"
     output_file = "D:\\Takkand_D\\Desktop\\result.xlsx"
 

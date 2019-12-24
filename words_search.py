@@ -7,6 +7,7 @@ Search in lower register.
     уватская
     шапшинское
 """
+
 import os
 import re
 try:
@@ -19,7 +20,6 @@ import time
 WORD_NAMESPACE = '{http://schemas.openxmlformats.org/wordprocessingml/2006/main}'
 PARA = WORD_NAMESPACE + 'p'
 TEXT = WORD_NAMESPACE + 't'
-
 
 
 def get_docx_text(path):
@@ -42,7 +42,6 @@ def get_docx_text(path):
     return '\n\n'.join(paragraphs)
 
 
-
 def main():
     print("Processing\n\n\n")
     files = os.listdir()
@@ -59,7 +58,7 @@ def main():
         print(e)
         input("File in.txt not found. Create it and try again.")
         exit()
-    counter=0
+    counter = 0
 
     for file_name in files:
         with open('out.txt', 'a') as file:
@@ -68,7 +67,7 @@ def main():
         txt = get_docx_text(file_name).lower()
         for word in words:
             if word in txt:
-                counter+=1
+                counter += 1
                 with open('out.txt', 'a') as file:
                     file.write('\t ' + word + '\n')
                     print('\t ' + word + '\n')
@@ -76,7 +75,8 @@ def main():
     print(f'Done in {time.perf_counter()} sec')
     input(f'\n\n{counter} matches found.\n')
 
-if __name__=='__main__':
+
+if __name__ == '__main__':
     try:
         main()
         time.sleep(3)

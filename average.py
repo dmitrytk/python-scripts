@@ -72,7 +72,7 @@ def main():
     conn.close()
 
     # Concatenate result dataframes and save to excel
-    df_result = pd.concat([df1,df2])
+    df_result = pd.concat([df1, df2])
     df_result.to_excel(output_file)
 
     os.system(f'start ""  {output_file}')

@@ -21,7 +21,7 @@ def list_to_txt(output_file, content):
     '''Write 2d list to text file'''
     result_str = ''
     for row in content:
-        result_str +=  '\t'.join([str(i) for i in row]) + '\n'
+        result_str += '\t'.join([str(i) for i in row]) + '\n'
     with open(output_file, 'w') as f:
         f.write(result_str)
 
@@ -34,7 +34,7 @@ def main():
         os.mkdir(output_dir)
 
     for well in wells:
-        well_df = df[df.WELL==well]
+        well_df = df[df.WELL == well]
         result_list = [list(well_df)] + well_df.values.tolist()
         list_to_txt(f"./{output_dir}/{str(well)}.inc", result_list)
 

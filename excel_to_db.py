@@ -9,6 +9,7 @@ SVA-1063	03.03.2018 5:00	1251.360107
 input file: data.xlsx
 output file: data.slite
 """
+
 import pandas as pd
 import time
 import sqlite3
@@ -16,20 +17,20 @@ import sqlite3
 input_file = 'data.xlsx'
 output_file = 'data.sqlite'
 
+
 def main():
-	print('processing')
-	df = pd.read_excel(input_file)
-	conn = sqlite3.connect(output_file)
-	cursor = conn.cursor()
-	df.to_sql("data", con=conn, if_exists='replace')
+    print('processing')
+    df = pd.read_excel(input_file)
+    conn = sqlite3.connect(output_file)
+    cursor = conn.cursor()
+    df.to_sql("data", con=conn, if_exists='replace')
 
 
-if __name__=='__main__':
-	try:
-		main()
-		input(f'Done in {time.perf_counter()} sec')
-		time.sleep(3)
-	except Exception as e:
-		print(e)
-		input('Press Enter to exit.')
-	
+if __name__ == '__main__':
+    try:
+        main()
+        input(f'Done in {time.perf_counter()} sec')
+        time.sleep(3)
+    except Exception as e:
+        print(e)
+        input('Press Enter to exit.')

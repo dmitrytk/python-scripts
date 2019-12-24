@@ -1,4 +1,5 @@
-#find links to literature for all .docx files in folder 
+'''find links to literature for all <.docx> files in folder'''
+
 import os
 import re
 try:

@@ -21,6 +21,7 @@ import os
 import time
 import openpyxl as op
 
+
 class Well:
     def __init__(self, name, alt, x, y):
         self.name = name
@@ -29,6 +30,7 @@ class Well:
         self.y = y
         self.zk = []
         self.zp = []
+
 
 input_file = "RB9_template.xlsx"
 output_file = "RB9_result.xlsx"
@@ -85,6 +87,7 @@ def main():
     os.system("start " + output_file)
 
     print(f"Done in {time.perf_counter()} sec")
+
 
 if __name__ == "__main__":
     try:
