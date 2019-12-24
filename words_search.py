@@ -1,8 +1,8 @@
 """
-Поиск слов из файла in.txt во всех файлах docx в текущей папке.
-Результаты записываются в файл out.txt
-Поиск ведется в нижнем регистре.
-Формат файла in.txt:
+Search for words in <in.txt> in all docx files in current folder.
+Write search result in <out.txt>
+Search in lower register.
+<in.txt> file format:
     южно-киняминское
     уватская
     шапшинское
@@ -44,10 +44,9 @@ def get_docx_text(path):
 
 
 def main():
-    os.system('cls')
-    print("Обрабатывается\n\n\n")
+    print("Processing\n\n\n")
     files = os.listdir()
-    files = [file_name for file_name in files if ".docx" in file_name and '~$' not in file_name]
+    files = [i for i in files if ".docx" in i and '~$' not in i]
 
     try:
         with open('in.txt', 'r') as file:
@@ -58,7 +57,7 @@ def main():
             file.write('')
     except Exception as e:
         print(e)
-        input("Файл in.txt не найден. Создайте его и попробуйте снова.\nНажмите Enter для выхода")
+        input("File in.txt not found. Create it and try again.")
         exit()
     counter=0
 
@@ -74,12 +73,13 @@ def main():
                     file.write('\t ' + word + '\n')
                     print('\t ' + word + '\n')
 
-    print(f'Завершено за {time.perf_counter()} сек')
-    input(f'\n\n{counter} совпадений найдено.\n\nНажмите Enter для выхода')
+    print(f'Done in {time.perf_counter()} sec')
+    input(f'\n\n{counter} matches found.\n')
 
 if __name__=='__main__':
     try:
         main()
+        time.sleep(3)
     except Exception as e:
         print(e)
-        input("Нажмите Enter для выхода")
+        input()

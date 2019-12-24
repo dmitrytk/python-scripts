@@ -65,12 +65,13 @@ def main():
 
     wb.save()
     os.system(f'start ""  {output_file}')
-    print(f"time elapsed {time.perf_counter()}")
 
 
 if __name__ == "__main__":
     try:
         main()
+        print(f"time elapsed {time.perf_counter()}")
+        time.sleep(3)
     except Exception as e:
         print(e)
         input()

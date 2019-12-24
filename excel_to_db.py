@@ -23,11 +23,12 @@ def main():
 	cursor = conn.cursor()
 	df.to_sql("data", con=conn, if_exists='replace')
 
-	input(f'Done in {time.perf_counter()} sec')
 
 if __name__=='__main__':
 	try:
 		main()
+		input(f'Done in {time.perf_counter()} sec')
+		time.sleep(3)
 	except Exception as e:
 		print(e)
 		input('Press Enter to exit.')

@@ -1,10 +1,11 @@
-#delete unnecessary LAS file part for RMS import
-#!!! replace original files
-import re
+'''
+Delete unnecessary LAS file part for RMS import
+!!! Replace original files
+'''
+
 import os
 import time
-
-os.system("cls")
+import re
 
 
 def main():
@@ -23,7 +24,8 @@ def main():
 if __name__ == "__main__":
     try:
         main()
-        input(f"done in {time.perf_counter()} sec")
+        print(f"done in {time.perf_counter()} sec.")
+        time.sleep(3)
 
     except Exception as e:
         print(e)

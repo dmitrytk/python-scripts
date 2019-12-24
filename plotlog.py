@@ -1,26 +1,25 @@
 '''
-Создание файла .rb9 из таблицы пропластков.
+Create .rb9 file from layers table.
 Формат входного файла template.xlsx:
-лист 1: 'LAYERS'
+Sheet 1: 'LAYERS'
 WELL	ZKA	ZPA
 1W	-839.3	-840.5
 1W	-840.5	-841.9
 
-лист 2: 'WELLS'
+Sheet 2: 'WELLS'
 WELL	ALT	X	Y
 18P	95.8	3543229	726515
 1W	107.7	3543302	722886
 
-лист 3: 'ZONES'
+Sheet 3: 'ZONES'
 WELL	ZONE	ZKA	ZPA
 18P	УВАТСКАЯ	-844.2	-1583.6
 23R	УВАТСКАЯ	-846.8	-1579.2
 '''
 
-import openpyxl as op
-import time
 import os
-os.system("cls")
+import time
+import openpyxl as op
 
 class Well:
     def __init__(self, name, alt, x, y):
@@ -31,12 +30,12 @@ class Well:
         self.zk = []
         self.zp = []
 
-fileIn = "RB9_template.xlsx"
-fileOut = "RB9_result.xlsx"
+input_file = "RB9_template.xlsx"
+output_file = "RB9_result.xlsx"
 
 
 def main():
-    wb = op.load_workbook(fileIn)
+    wb = op.load_workbook(input_file)
     wbOut = op.Workbook()
 
     wsLayers = wb["LAYERS"]
@@ -82,8 +81,8 @@ def main():
                 r.append(-1 * row[3].value + well.alt)
                 wsOut.append(r)
 
-    wbOut.save(fileOut)
-    os.system("start " + fileOut)
+    wbOut.save(output_file)
+    os.system("start " + output_file)
 
     print(f"Done in {time.perf_counter()} sec")
 

@@ -16,7 +16,6 @@ import openpyxl as op
 import sqlite3
 import os
 
-os.system("cls")
 
 def main():
     input_file = "D:\\Takkand_D\\Desktop\\out.csv"
@@ -77,13 +76,14 @@ def main():
     df_result.to_excel(output_file)
 
     os.system(f'start ""  {output_file}')
-    print(f"Done in {time.perf_counter()} sec")
 
 
 # -------------------------------------------------#
 if __name__ == "__main__":
     try:
         main()
+        print(f"Done in {time.perf_counter()} sec")
+        time.sleep(3)
     except Exception as e:
         print(e)
         input()
