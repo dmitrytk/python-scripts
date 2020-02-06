@@ -18,8 +18,17 @@ import pandas as pd
 def main():
     print("Processing")
 
-    iunput_file = "D:\\Takkand_D\\Desktop\\out.csv"
-    output_file = "D:\\Takkand_D\\Desktop\\result.xlsx"
+    iunput_file = os.path.join(os.environ['USERPROFILE'], 'Desktop','out.csv')
+    output_file = os.path.join(os.environ['USERPROFILE'], 'Desktop','result.xlsx')
+
+    # Update input file
+    content = ''
+    with open(input_file, 'r') as file:
+        content = file.read()
+        content = re.sub(";( {1,})?", ",", content)
+        print(content)
+    with open(input_file, 'w') as file:
+        file.write(content)
 
     df = pd.read_csv(iunput_file, encoding='ansi')
 

@@ -1,6 +1,6 @@
 '''
 Create .rb9 file from layers table.
-Формат входного файла template.xlsx:
+Формат входного файла plotlog.xlsx:
 Sheet 1: 'LAYERS'
 WELL	ZKA	ZPA
 1W	-839.3	-840.5
@@ -32,8 +32,8 @@ class Well:
         self.zp = []
 
 
-input_file = "RB9_template.xlsx"
-output_file = "RB9_result.xlsx"
+input_file = "plotlog.xlsx"
+output_file = "result.xlsx"
 
 
 def main():

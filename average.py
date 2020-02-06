@@ -1,15 +1,16 @@
 """
 Calculate average parameters for zones and wells from Geopoisk layers table
 !!!<COLL> column in necessary!!!
-Input csv file  "D:\\Takkand_D\\Desktop\\out.csv":
+Input csv file  "C:\\Users\\Takkand_D\\Desktop\\out.csv":
 Н_скв	ZK	ZP	ZKA	ZPA	COLL	ZONE	APS	KP	KPR
 100	1200	1200.2	1120.2	1120.4	0	-9999.99	0	0	0
 100	1200.2	1245.9	1120.4	1166.1	0	-9999.99	0	0	0
 100	1245.9	1248.8	1166.1	1169	1	Покурская верхняя	0.639	24.515	12.408
-Output excel file 'D:\\Takkand_D\\Desktop\\result.xlsx'
+Output excel file 'C:\\Users\\Takkand_D\\Desktop\\result.xlsx'
 """
 
 import pandas as pd
+import re
 import time
 import sys
 import openpyxl as op
@@ -18,8 +19,19 @@ import os
 
 
 def main():
-    input_file = "D:\\Takkand_D\\Desktop\\out.csv"
-    output_file = 'D:\\Takkand_D\\Desktop\\result.xlsx'
+    input_file = os.path.join(os.environ['USERPROFILE'], 'Desktop','out.csv')
+    output_file = os.path.join(os.environ['USERPROFILE'], 'Desktop','result.xlsx')
+
+    # Update input file
+    content = ''
+    with open(input_file, 'r') as file:
+        content = file.read()
+        content = re.sub(";( {1,})?", ",", content)
+        print(content)
+    with open(input_file, 'w') as file:
+        file.write(content)
+
+
     print('processing')
 
     default_columns = [
