@@ -1,5 +1,6 @@
+#!/usr/bin/env python
 '''
-dump "data.xlsx" to postgresql
+dump "./data.xlsx" to postgresql "temp" database
 '''
 
 import os
@@ -9,26 +10,32 @@ import numpy  as np
 from sqlalchemy import create_engine
 
 
-file_name = 'data.xlsx'
+input_file = 'data.xlsx'
 
 def main():
 
-	input_file = os.path.join('c:\\Users\\Dmitry\\Desktop', file_name)
-	postgres_user = os.environ['POSTGRES_USER']
-	postgres_password = os.environ['POSTGRES_PASSWORD']
-	db_name = 'temp'
-	table_name = 'temp'
+	# Connection params 
+	input_file = os.path.join(os.environ['USERPROFILE'], 'Desktop', input_file)
+	user = os.environ['POSTGRES_USER']
+	password = os.environ['PGPASSWORD']
+	db = 'temp'
+	table = 'temp'
 
 	# dump
 	df = pd.read_excel(input_file)
-	engine = create_engine(f'postgresql://{postgres_user}:{postgres_password}@localhost:5432/{db_name}')
-	df.to_sql(table_name, engine, if_exists='replace')
+	engine = create_engine(f'postgresql://{user}:{password}@localhost:5432/{db}')
+	df.to_sql(table, engine, if_exists='replace')
 	input(f'Done in {time.perf_counter()} sec')
 
 
-if __name__ == '__main__':
-	try:
-		main()
-	except Exception as e:
-		input(e)
+# -------------------MAIN----------------------#
+if __name__ == "__main__":
+    try:
+        print("processing")
+        main()
+        print("Done!")
+        time.sleep(3)
+    except Exception as e:
+        print(e)
+        input()
 

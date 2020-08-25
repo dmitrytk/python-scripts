@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 '''
 Create separate .inc file for each well
 Excel file template (case sensitive):
@@ -39,10 +40,13 @@ def main():
         list_to_txt(f"./{output_dir}/{str(well)}.inc", result_list)
 
 
+# -------------------MAIN----------------------#
 if __name__ == "__main__":
     try:
+        print("processing")
         main()
-        input("Press enter to exit")
+        print("Done!")
+        time.sleep(3)
     except Exception as e:
         print(e)
-        input("Press enter to exit")
+        input()

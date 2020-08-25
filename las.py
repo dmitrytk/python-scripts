@@ -1,7 +1,8 @@
-'''
+#!/usr/bin/env python
+"""
 Delete unnecessary LAS file part for RMS import
-!!! Replace original files
-'''
+!!! Replace original files !!!
+"""
 
 import os
 import time
@@ -21,12 +22,13 @@ def main():
             f.write(content)
 
 
+# -------------------MAIN----------------------#
 if __name__ == "__main__":
     try:
+        print("processing")
         main()
-        print(f"done in {time.perf_counter()} sec.")
+        print("Done!")
         time.sleep(3)
-
     except Exception as e:
         print(e)
         input()

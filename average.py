@@ -1,12 +1,13 @@
+#!/usr/bin/env python
 """
 Calculate average parameters for zones and wells from Geopoisk layers table
-!!!<COLL> column in necessary!!!
-Input csv file  "C:\\Users\\Takkand_D\\Desktop\\out.csv":
+!!!<COLL> column is required!!!
+Input csv file  "%USERPROFILE%\\Desktop\\out.csv":
 Н_скв	ZK	ZP	ZKA	ZPA	COLL	ZONE	APS	KP	KPR
 100	1200	1200.2	1120.2	1120.4	0	-9999.99	0	0	0
 100	1200.2	1245.9	1120.4	1166.1	0	-9999.99	0	0	0
 100	1245.9	1248.8	1166.1	1169	1	Покурская верхняя	0.639	24.515	12.408
-Output excel file 'C:\\Users\\Takkand_D\\Desktop\\result.xlsx'
+Output excel file '%USERPROFILE%\\Desktop\\result.xlsx'
 """
 
 import pandas as pd
@@ -23,16 +24,12 @@ def main():
     output_file = os.path.join(os.environ['USERPROFILE'], 'Desktop','result.xlsx')
 
     # Update input file
-    content = ''
     with open(input_file, 'r') as file:
         content = file.read()
         content = re.sub(";( {1,})?", ",", content)
-        print(content)
     with open(input_file, 'w') as file:
         file.write(content)
 
-
-    print('processing')
 
     default_columns = [
         "WELL", "ZK", "ZP", "ZKA", "ZPA", "COLL", "NOB", "H", "ZONE",
@@ -90,11 +87,12 @@ def main():
     os.system(f'start ""  {output_file}')
 
 
-# -------------------------------------------------#
+# -------------------MAIN----------------------#
 if __name__ == "__main__":
     try:
+        print("processing")
         main()
-        print(f"Done in {time.perf_counter()} sec")
+        print("Done!")
         time.sleep(3)
     except Exception as e:
         print(e)

@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 '''
 Simple tkinter program to calculate water table decline.
 Draw table, map and grid!

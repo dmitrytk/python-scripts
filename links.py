@@ -1,4 +1,7 @@
-'''find links to literature for all <.docx> files in folder'''
+#!/usr/bin/env python
+"""
+find links to literature for all <.docx> files in folder
+"""
 
 import os
 import re
@@ -92,9 +95,13 @@ def main():
     os.system("start ссылки.txt")
 
 
+# -------------------MAIN----------------------#
 if __name__ == "__main__":
     try:
+        print("processing")
         main()
+        print("Done!")
+        time.sleep(3)
     except Exception as e:
         print(e)
-        input("\nPress enter to exit\n")
+        input()

@@ -1,8 +1,9 @@
+#!/usr/bin/env python
 """
 Fill blank row in layers table
 Mandatory columns: Н_скв, ZK, ZP, COLL
-Fll blank cell will be set to - 0
-Input file format "D:\\Takkand_D\\Desktop\\out.csv":
+Fill blank cell will be set to - 0
+Input file format "%USERPROFILE%\\Desktop\\out.csv":
 Н_скв	ZK	ZP	ZKA	ZPA	COLL	ZONE	APS	KP	KPR
 100	1200	1200.2	1120.2	1120.4	0	-9999.99	0	0	0
 100	1200.2	1245.9	1120.4	1166.1	0	-9999.99	0	0	0
@@ -16,17 +17,13 @@ import pandas as pd
 
 
 def main():
-    print("Processing")
-
     iunput_file = os.path.join(os.environ['USERPROFILE'], 'Desktop','out.csv')
     output_file = os.path.join(os.environ['USERPROFILE'], 'Desktop','result.xlsx')
 
     # Update input file
-    content = ''
     with open(input_file, 'r') as file:
         content = file.read()
         content = re.sub(";( {1,})?", ",", content)
-        print(content)
     with open(input_file, 'w') as file:
         file.write(content)
 
@@ -77,10 +74,12 @@ def main():
     os.system(f'start ""  {output_file}')
 
 
+# -------------------MAIN----------------------#
 if __name__ == "__main__":
     try:
+        print("processing")
         main()
-        print(f"time elapsed {time.perf_counter()}")
+        print("Done!")
         time.sleep(3)
     except Exception as e:
         print(e)

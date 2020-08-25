@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 Search for words in <in.txt> in all docx files in current folder.
 Write search result in <out.txt>
@@ -76,9 +77,12 @@ def main():
     input(f'\n\n{counter} matches found.\n')
 
 
-if __name__ == '__main__':
+# -------------------MAIN----------------------#
+if __name__ == "__main__":
     try:
+        print("processing")
         main()
+        print("Done!")
         time.sleep(3)
     except Exception as e:
         print(e)
