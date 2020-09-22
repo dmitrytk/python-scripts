@@ -1,22 +1,22 @@
 #!/usr/bin/env python
 """
 Calculate average parameters for zones and wells from Geopoisk layers table
-!!!<COLL> column is required!!!
+!!!<KOL> column is required!!!
 Input csv file  "%USERPROFILE%\\Desktop\\out.csv":
-Н_скв	ZK	ZP	ZKA	ZPA	COLL	ZONE	APS	KP	KPR
+Н_скв	ZK	ZP	ZKA	ZPA	KOL	ZONE	APS	KP	KPR
 100	1200	1200.2	1120.2	1120.4	0	-9999.99	0	0	0
 100	1200.2	1245.9	1120.4	1166.1	0	-9999.99	0	0	0
 100	1245.9	1248.8	1166.1	1169	1	Покурская верхняя	0.639	24.515	12.408
 Output excel file '%USERPROFILE%\\Desktop\\result.xlsx'
 """
 
-import pandas as pd
-import re
-import time
 import sys
+import os
+import time
+import re
+import pandas as pd
 import openpyxl as op
 import sqlite3
-import os
 
 
 def main():
@@ -32,56 +32,49 @@ def main():
 
 
     default_columns = [
-        "WELL", "ZK", "ZP", "ZKA", "ZPA", "COLL", "NOB", "H", "ZONE",
+        "WELL", "ZK", "ZP", "ZKA", "ZPA", "KOL", "NOB", "H", "ZONE",
         "HORIZONT"
     ]
 
     zone_name = "Объект"
 
     # Load file
-    df = pd.read_csv(input_file, encoding='ansi')
-    df = df.rename(columns={'Н_скв': 'WELL'})
-    df = df[df.COLL > 0]
+    df = pd.read_csv(input_file, encoding="ansi")
+    df = df.rename(columns={"Н_скв": "WELL"})
+    df = df[df.KOL == "Коллектор"]
     df = df[df.ZONE != "-9999.99"]
     if "H" not in df.columns.values:
         df["H"] = df["ZPA"] - df["ZKA"]
 
-    df['HORIZONT'] = zone_name
+    df["HORIZONT"] = zone_name
 
     # Load data to sqlite
     conn = sqlite3.connect(":memory:")
     cursor = conn.cursor()
-    df.to_sql("data", con=conn, if_exists='replace')
+    df.to_sql("data", con=conn, if_exists="replace")
 
-    params = []
-    [params.append(i) for i in list(df) if i not in default_columns]
+    params = [i for i in list(df) if i not in default_columns]
 
-    #   Create 1 SQL query
-    QUERY = "SELECT COLL, WELL, ZONE, round(sum(H),2) as H, "
-    for param in params:
-        QUERY += "round(sum(" + param + "*H)/sum(H),2) as " + param + ", "
-    QUERY = QUERY[:-2]
-    QUERY += " FROM data group by COLL, ZONE, WELL;"
+    # Create SQL query
+    # Average params group by WELL and ZONES
+    QUERY = "SELECT \n\tWELL,\n\tZONE,\n\tround(sum(H),2) as H,\n"
+    QUERY += ",\n".join([f"\tround(sum({param}*H)/sum(H),2) as {param}" for param in params])
+    QUERY += "\nFROM data group by ZONE, WELL\n"
 
-    df1 = pd.read_sql_query(QUERY, conn)
+    QUERY += "UNION\n"
+ 
+    # Average params group by WELL
+    QUERY += "SELECT \n\tWELL,\n\t'ВСЕ' as ZONE,\n\tround(sum(H),2) as H,\n"
+    QUERY += ",\n".join([f"\tround(sum({param}*H)/sum(H),2) as {param}" for param in params])
+    QUERY += "\nFROM data group by WELL;"
 
-    # Store query values in list
-    result_list = df.values.tolist()
-
-    # Create 2 SQL query
-    QUERY_2 = "SELECT COLL, WELL, HORIZONT, round(sum(H),2) as H, "
-    for param in params:
-        QUERY_2 += "round(sum(" + param + "*H)/sum(H),2) as " + param + ", "
-    QUERY_2 = QUERY_2[:-2]
-    QUERY_2 += " FROM data group by COLL, WELL;"
-
-    df2 = pd.read_sql_query(QUERY_2, conn)
+    # Execute QUERY
+    df_result = pd.read_sql_query(QUERY, conn)
 
     cursor.close()
     conn.close()
 
-    # Concatenate result dataframes and save to excel
-    df_result = pd.concat([df1, df2])
+    # Save to excel
     df_result.to_excel(output_file)
 
     os.system(f'start ""  {output_file}')
