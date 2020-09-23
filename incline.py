@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 '''
-Create separate .inc file for each well
-Excel file template (case sensitive):
+Create .inc
+Excel file template:
 WELL    MD  INCL    AZIM
 551 10  0.15    0
 551 20  0.15    0
@@ -14,8 +14,8 @@ import time
 import pandas as pd
 
 
-input_file = "incline.xlsx"
-output_dir = 'inc'
+INPUT_FILE = "incline.xlsx"
+OUTPUT_DIR = 'inc'
 
 
 def list_to_txt(output_file, content):
@@ -28,16 +28,16 @@ def list_to_txt(output_file, content):
 
 
 def main():
-    df = pd.read_excel(input_file)
+    df = pd.read_excel(INPUT_FILE)
     wells = set(df.WELL)
 
-    if not os.path.exists(output_dir):
-        os.mkdir(output_dir)
+    if not os.path.exists(OUTPUT_DIR):
+        os.mkdir(OUTPUT_DIR)
 
     for well in wells:
         well_df = df[df.WELL == well]
         result_list = [list(well_df)] + well_df.values.tolist()
-        list_to_txt(f"./{output_dir}/{str(well)}.inc", result_list)
+        list_to_txt(f"./{OUTPUT_DIR}/{str(well)}.inc", result_list)
 
 
 # -------------------MAIN----------------------#

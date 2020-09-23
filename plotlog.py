@@ -23,6 +23,11 @@ import sys
 import time
 import pandas as pd
 
+INPUT_FILE = 'plotlog.xlsx'
+OUTPUT_RB1 = '_.rb1'
+OUTPUT_RB3 = '_.rb3'
+OUTPUT_RB9 = '_.rb9'
+
 
 class Well:
     def __init__(self, name, alt, md, x, y):
@@ -46,15 +51,11 @@ def write_file(file_name, content):
 
 
 def main():
-    input_file = "plotlog.xlsx"
-    output_rb1 = "_.rb1"
-    output_rb3 = "_.rb3"
-    output_rb9 = "_.rb9"
 
     # LOAD EXCEL FILE
-    df_layers = pd.read_excel(input_file, sheet_name='LAYERS')
-    df_wells = pd.read_excel(input_file, sheet_name='WELLS')
-    df_zones = pd.read_excel(input_file, sheet_name='ZONES')
+    df_layers = pd.read_excel(INPUT_FILE, sheet_name='LAYERS')
+    df_wells = pd.read_excel(INPUT_FILE, sheet_name='WELLS')
+    df_zones = pd.read_excel(INPUT_FILE, sheet_name='ZONES')
 
     # LOAD WELLS
     well_names = list(dict.fromkeys(df_wells.WELL).keys())
@@ -94,7 +95,7 @@ def main():
     for zone in zone_names:
         rb1 += f' {zone} \n'
 
-    write_file(output_rb1, rb1)
+    write_file(OUTPUT_RB1, rb1)
 
     # RB3
     rb3 = ''
@@ -104,7 +105,7 @@ def main():
             rb3 += str(zone_top) + ' \n'
         rb3 += str(well.zone_bot[-1]) + ' \n'
 
-    write_file(output_rb3, rb3)
+    write_file(OUTPUT_RB3, rb3)
 
     # RB9
     rb9 = ''
@@ -112,15 +113,15 @@ def main():
         rb9 += f'"{well.name}" \n {well.zk[0]} {well.zp[-1]} 0.0 {len(well.zk)} \n'
         for index, layer in enumerate(well.zk):
             rb9 += f'{layer} {round((well.zp[index] - layer),2)} 0.7 \n'
-    write_file(output_rb9, rb9)
+    write_file(OUTPUT_RB9, rb9)
 
 
 # -------------------MAIN----------------------#
-if __name__ == "__main__":
+if __name__ == '__main__':
     try:
-        print("processing")
+        print('processing')
         main()
-        print("Done!")
+        print('Done!')
         time.sleep(3)
     except Exception as e:
         print(e)
