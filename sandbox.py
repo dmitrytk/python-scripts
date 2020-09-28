@@ -2,15 +2,8 @@
 """
 Create .inc files for Isoline
 Excel file template:
-Sheet <INCL>
-WELL	MD	INC	AZIM
-1026	20	0.75	0
-1026	30	1.25	45
-
-Sheet <HEADS>
-WELL	X	Y	ALT	MAG
-1026	12349908.45	6826920.269	62.42	19
-6493	12348985.78	6826006.896	57.87	19
+WELL	MD	X	Y	ALT	INC	AZIM	MAG
+103	40	13629651	6836114	104.7	0.38	185	17.67
 """
 
 import os
@@ -20,13 +13,11 @@ import time
 
 INPUT_FILE = 'incline.xlsx'
 OUTPUT_DIR = 'inc'
-INCL_SHEET_NAME = 'INCL'
-HEADS_SHEET_NAME = 'HEADS'
 
 
 def main():
-    df_incl = pd.read_excel(INPUT_FILE, sheet_name=INCL_SHEET_NAME)
-    df_heads = pd.read_excel(INPUT_FILE, sheet_name=HEADS_SHEET_NAME)
+    df_incl = pd.read_excel(INPUT_FILE, sheet_name='incl')
+    df_heads = pd.read_excel(INPUT_FILE, sheet_name='heads')
 
     wells = list(set(df_incl.WELL))
 

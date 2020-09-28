@@ -1,18 +1,18 @@
 #!/usr/bin/env python
 """
 Create .rb1, .rb9, .rb9  file from excel spreadsheet.
-Input file format 'plotlog.xlsx':
-Sheet 'LAYERS':
+Input file format:
+Sheet <LAYERS>:
 WELL	ZKA	ZPA
 1W	-839.3	-840.5
 1W	-840.5	-841.9
 
-Sheet 'WELLS':
+Sheet <WELLS>:
 WELL	ALT	X	Y
 18P	95.8	3543229	726515
 1W	107.7	3543302	722886
 
-Sheet 'ZONES':
+Sheet <ZONES>:
 WELL	ZONE	ZKA	ZPA
 18P	УВАТСКАЯ	-844.2	-1583.6
 23R	УВАТСКАЯ	-846.8	-1579.2
