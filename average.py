@@ -17,6 +17,7 @@ import re
 import pandas as pd
 import openpyxl as op
 import sqlite3
+from runner import run
 
 
 INPUT_FILE = os.path.join(os.environ['USERPROFILE'], 'Desktop', 'out.csv')
@@ -84,11 +85,4 @@ def main():
 
 # -------------------MAIN----------------------#
 if __name__ == '__main__':
-    try:
-        print('processing')
-        main()
-        print('Done!')
-        time.sleep(3)
-    except Exception as e:
-        print(e)
-        input()
+    run(main)

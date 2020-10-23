@@ -22,6 +22,7 @@ import os
 import sys
 import time
 import pandas as pd
+from runner import run
 
 INPUT_FILE = 'plotlog.xlsx'
 OUTPUT_RB1 = '_.rb1'
@@ -118,11 +119,4 @@ def main():
 
 # -------------------MAIN----------------------#
 if __name__ == '__main__':
-    try:
-        print('processing')
-        main()
-        print('Done!')
-        time.sleep(3)
-    except Exception as e:
-        print(e)
-        input()
+    run(main)

@@ -7,11 +7,11 @@ WELL    MD  INCL    AZIM
 551 20  0.15    0
 551 30  0.27    0
 '''
-
 import os
 import glob
 import time
 import pandas as pd
+from runner import run
 
 
 INPUT_FILE = "incline.xlsx"
@@ -41,12 +41,5 @@ def main():
 
 
 # -------------------MAIN----------------------#
-if __name__ == "__main__":
-    try:
-        print("processing")
-        main()
-        print("Done!")
-        time.sleep(3)
-    except Exception as e:
-        print(e)
-        input()
+if __name__ == '__main__':
+    run(main)

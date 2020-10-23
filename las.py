@@ -7,6 +7,7 @@ Delete unnecessary LAS file part for RMS import
 import os
 import time
 import re
+from runner import run
 
 
 def main():
@@ -23,11 +24,4 @@ def main():
 
 # -------------------MAIN----------------------#
 if __name__ == '__main__':
-    try:
-        print('processing')
-        main()
-        print('Done!')
-        time.sleep(3)
-    except Exception as e:
-        print(e)
-        input()
+    run(main)

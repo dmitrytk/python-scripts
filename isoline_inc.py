@@ -16,6 +16,7 @@ WELL	X	Y	ALT	MAG
 import os
 import pandas as pd
 import time
+from runner import run
 
 
 INPUT_FILE = 'incline.xlsx'
@@ -54,11 +55,4 @@ def main():
 
 # -------------------MAIN----------------------#
 if __name__ == '__main__':
-    try:
-        print('processing')
-        main()
-        print('Done!')
-        time.sleep(3)
-    except Exception as e:
-        print(e)
-        input()
+    run(main)
