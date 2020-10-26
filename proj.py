@@ -18,16 +18,6 @@ import pyperclip
 from pyproj import Transformer
 from runner import run
 
-# Command line args
-# in_proj and out_proj required
-parser = argparse.ArgumentParser(description='Videos to images')
-parser.add_argument('in_proj', type=str, help='Input projection')
-parser.add_argument('out_proj', type=str, help='Output projection')
-parser.add_argument('-o', action="store", dest="out_deg")
-args = parser.parse_args()
-
-out_deg = args.out_deg == 'deg'
-
 
 def deg2dec(data):
     '''
@@ -56,6 +46,14 @@ def dec2deg(data):
     second = f'0{second}' if second < 10 else second
     return f'{degree} {minute} {second}'
 
+ # Command line args
+# in_proj and out_proj required
+parser = argparse.ArgumentParser(description='Videos to images')
+parser.add_argument('in_proj', type=str, help='Input projection')
+parser.add_argument('out_proj', type=str, help='Output projection')
+parser.add_argument('-o', action="store", dest="out_deg")
+args = parser.parse_args()
+out_deg = args.out_deg == 'deg'
 
 # PROJECTIONS
 PROJECTIONS = {
@@ -112,4 +110,5 @@ def main():
 
 # -------------------MAIN----------------------#
 if __name__ == '__main__':
+
     run(main)
