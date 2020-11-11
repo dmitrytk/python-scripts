@@ -1,14 +1,12 @@
 #!/usr/bin/env python
 """
-Parse mer files
+Parse Salym Petroleum rate files
 """
 
-import sys
 import os
-import time
-import re
-import datetime
+
 import openpyxl as op
+
 from runner import run
 
 

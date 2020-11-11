@@ -1,16 +1,15 @@
 #!/usr/bin/env python
 """
-dump Excel file to postgresql 'temp' database
+Dump Excel file to postgresql 'temp' database
 """
 
 import os
-import time
+
 import pandas as pd
-import numpy as np
 from sqlalchemy import create_engine
+
 import util
 from runner import run
-
 
 args = util.get_args()
 INPUT_FILE = args.file or 'data.xlsx'
@@ -30,7 +29,6 @@ def main():
     engine = create_engine(
         f'postgresql://{user}:{password}@localhost:5432/{DB}')
     df.to_sql(TABLE, engine, if_exists='replace')
-    print(f'Done in {time.perf_counter()} sec')
 
 
 # -------------------MAIN----------------------#

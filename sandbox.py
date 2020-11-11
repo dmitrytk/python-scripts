@@ -1,1 +1,1 @@
-#!/usr/bin/env python
+data = '73°24\'00"'

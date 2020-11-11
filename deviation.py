@@ -1,9 +1,7 @@
-import sys
 import os
-import time
 import re
-from runner import run
 
+from runner import run
 
 DEVIATION_FOLDER = 'dev'
 OUTPUT_FILE = 'result.txt'
@@ -11,12 +9,9 @@ OUTPUT_FILE2 = 'dev.txt'
 
 
 def main():
-
     res = ''
     res_dev = 'WELL\tMD\tX\tY\tZ\tTVD\tDX\tDY\tAZIM\tINCL\tDLS\n'
     files = os.listdir(DEVIATION_FOLDER)
-    st = '# WELL HEAD X-COORDINATE: 50329.7100'
-    result = re.split(' +', st)
     for file in files:
         with open(f'{DEVIATION_FOLDER}/{file}') as f:
             content = f.read()

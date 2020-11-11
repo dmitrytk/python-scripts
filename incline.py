@@ -1,25 +1,24 @@
 #!/usr/bin/env python
-'''
+"""
 Create .inc
 Excel file template:
 WELL    MD  INCL    AZIM
 551 10  0.15    0
 551 20  0.15    0
 551 30  0.27    0
-'''
+"""
 import os
-import glob
-import time
-import pandas as pd
-from runner import run
 
+import pandas as pd
+
+from runner import run
 
 INPUT_FILE = "incline.xlsx"
 OUTPUT_DIR = 'inc'
 
 
 def list_to_txt(output_file, content):
-    '''Write 2d list to text file'''
+    """Write 2d list to text file"""
     result_str = ''
     for row in content:
         result_str += '\t'.join([str(i) for i in row]) + '\n'

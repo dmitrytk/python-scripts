@@ -2,42 +2,42 @@
 """
 Convert coordinates between projections
 Get data from clipboard. Result copied to clipboard.
-data fromat (TAB field separator):
+data format (TAB field separator):
 60.56   70.12
 60.57   45.46
 Usage:
 ./proj.py in_proj out_proj [-o deg]
-[-o deg] - optional degree convertion: 60.265 -> 60 15 54.60
+[-o deg] - optional degree conversion: 60.265 -> 60 15 54.60
 List of projections in PROJECTIONS dictionary
 """
-import os
+
+import argparse
 import re
 from math import ceil, floor
-import argparse
+
 import pyperclip
 from pyproj import Transformer
+
 from runner import run
 
 
 def deg2dec(data):
-    '''
-    Conert 60 15 54.60 -> 60.265
-    '''
+    """Convert  <str> 60 15 54.60 ->  <float> 60.265"""
+
     d, m, s = tuple([float(i) for i in data.split(' ')])
     if d < 0:
-        return d - m / 60 - s / 3600
+        return str(d - m / 60 - s / 3600)
     return str(d + m / 60 + s / 3600)
 
 
 def dec2deg(data):
-    '''
-    60.265 -> 60 15 54.60
-    '''
+    """Convert  float 60.265 ->  str 60 15 54.60"""
+
     decimal = float(data)
     positive = decimal > 0
     degree = floor(decimal) if positive else ceil(decimal)
-    minute = floor((decimal-degree) *
-                   60) if positive else floor((degree-decimal)*60)
+    minute = floor((decimal - degree) *
+                   60) if positive else floor((degree - decimal) * 60)
     second = round((decimal - degree - minute / 60) * 3600,
                    2) if positive else round((degree - decimal - minute / 60) * 3600, 2)
     # Add leading zero if < 10
@@ -46,7 +46,8 @@ def dec2deg(data):
     second = f'0{second}' if second < 10 else second
     return f'{degree} {minute} {second}'
 
- # Command line args
+
+# Command line args
 # in_proj and out_proj required
 parser = argparse.ArgumentParser(description='Videos to images')
 parser.add_argument('in_proj', type=str, help='Input projection')
@@ -55,14 +56,14 @@ parser.add_argument('-o', action="store", dest="out_deg")
 args = parser.parse_args()
 out_deg = args.out_deg == 'deg'
 
-# PROJECTIONS
+# Projections
 PROJECTIONS = {
     'wgs': 'EPSG:4326',
     'sk': 'EPSG:4284',
     # Other projections in loops below
 }
 
-#  Add zones to proj
+# Add zones to proj
 # Gauss
 for i in range(20):
     PROJECTIONS[f'z{i}'] = f'EPSG:{28400 + i}'
@@ -71,8 +72,6 @@ for i in range(20):
 for i in range(20, 50):
     PROJECTIONS[f'{i}n'] = f'EPSG:{32600 + i}'
 
-
-# transformer = Transformer.from_crs(in_proj, out_proj)
 transformer = Transformer.from_crs(
     PROJECTIONS[args.in_proj], PROJECTIONS[args.out_proj])
 
@@ -80,6 +79,8 @@ transformer = Transformer.from_crs(
 def main():
     # Get content from clipboard
     content = pyperclip.paste()
+    content = re.sub(r'° *|\' *', ' ', content)
+    content = re.sub(r'"', '', content)
 
     # split rows, cells and convert to float
     data = [i.split("\t") for i in content.split("\n")]
@@ -104,11 +105,10 @@ def main():
         print("\t".join([str(j) for j in value]),
               "\t".join([str(j) for j in result[i]]))
 
-    content = pyperclip.copy(result_str)
+    pyperclip.copy(result_str)
     print('Copied to clipboard')
 
 
 # -------------------MAIN----------------------#
 if __name__ == '__main__':
-
     run(main)

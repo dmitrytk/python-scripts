@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 """
-Parse mer files
+Parse XMAO mer files
 """
 
-import sys
-import os
-import time
-import re
 import datetime
+import os
+import re
+
 import openpyxl as op
+
 from runner import run
 
 months = {

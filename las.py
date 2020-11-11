@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 """
-Delete unnecessary LAS file part for RMS import
+Delete unnecessary LAS files part for RMS import
 !!! Replace original files !!!
 """
 
 import os
-import time
 import re
+
 from runner import run
 
 

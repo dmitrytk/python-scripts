@@ -10,12 +10,9 @@ Input csv file  '%USERPROFILE%\\Desktop\\out.csv':
 Output excel file '%USERPROFILE%\\Desktop\\result.xlsx'
 """
 
-import sys
 import os
-import time
 import re
 import pandas as pd
-import openpyxl as op
 import sqlite3
 from runner import run
 
@@ -28,7 +25,7 @@ def main():
     # Update input file
     with open(INPUT_FILE, 'r') as file:
         content = file.read()
-        content = re.sub(";( {1,})?", ",", content)
+        content = re.sub(";( +)?", ",", content)
     with open(INPUT_FILE, 'w') as file:
         file.write(content)
 
@@ -58,21 +55,21 @@ def main():
 
     # Create SQL query
     # Average params group by WELL and ZONES
-    QUERY = 'SELECT \n\tWELL,\n\tZONE,\n\tround(sum(H),2) as H,\n'
-    QUERY += ',\n'.join(
+    query = 'SELECT \n\tWELL,\n\tZONE,\n\tround(sum(H),2) as H,\n'
+    query += ',\n'.join(
         [f'\tround(sum({param}*H)/sum(H),2) as {param}' for param in params])
-    QUERY += '\nFROM data group by ZONE, WELL\n'
+    query += '\nFROM data group by ZONE, WELL\n'
 
-    QUERY += 'UNION\n'
+    query += 'UNION\n'
 
     # Average params group by WELL
-    QUERY += "SELECT \n\tWELL,\n\t'ВСЕ' as ZONE,\n\tround(sum(H),2) as H,\n"
-    QUERY += ",\n".join(
+    query += "SELECT \n\tWELL,\n\t'ВСЕ' as ZONE,\n\tround(sum(H),2) as H,\n"
+    query += ",\n".join(
         [f'\tround(sum({param}*H)/sum(H),2) as {param}' for param in params])
-    QUERY += '\nFROM data group by WELL;'
+    query += '\nFROM data group by WELL;'
 
     # Execute QUERY
-    df_result = pd.read_sql_query(QUERY, conn)
+    df_result = pd.read_sql_query(query, conn)
 
     cursor.close()
     conn.close()

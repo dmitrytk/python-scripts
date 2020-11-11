@@ -15,7 +15,6 @@ WELL	X	Y	ALT	MAG
 
 import os
 import pandas as pd
-import time
 from runner import run
 
 
