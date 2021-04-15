@@ -2,14 +2,22 @@ from proj import deg2dec, dec2deg
 import pytest
 
 
-def test_deg2dec():
-    assert deg2dec('60 00 00') == '60.0'
-    assert deg2dec('00 00 00') == '0.0'
-    assert deg2dec('-180 00 00') == '-180.0'
-    assert float(deg2dec('50 10 20.56')) == pytest.approx(50.172378, rel=1e-3)
+params = [
+    ('10 00 00.0', '10.0'),
+    ('256 53 24.0', '256.89'),
+    ('-180 35 24.0', '-180.59'),
+    ('00 59 24.0', '0.99'),
+    ('00 00 00.0', '0.0'),
+]
+
+reverse_params = [(row[1], row[0]) for row in params]
 
 
-def test_dec2deg():
-    assert dec2deg(60.58) == '60 34 48.0'
-    assert dec2deg(0) == '00 00 00.0'
-    assert dec2deg(-60) == '-60 00 00.0'
+@pytest.mark.parametrize("test_input, expected", params)
+def test_deg2dec_param(test_input, expected):
+    assert deg2dec(test_input) == expected
+
+
+@pytest.mark.parametrize("test_input, expected", reverse_params)
+def test_dec2deg_params(test_input, expected):
+    assert dec2deg(test_input) == expected
