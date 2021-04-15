@@ -19,6 +19,8 @@ WELL	ZONE	ZKA	ZPA
 """
 
 import sys
+from dataclasses import dataclass, field
+from typing import List
 
 import pandas as pd
 
@@ -30,17 +32,17 @@ OUTPUT_RB3 = '_.rb3'
 OUTPUT_RB9 = '_.rb9'
 
 
-class Well:
-    def __init__(self, name, alt, md, x, y):
-        self.name = name
-        self.alt = alt
-        self.x = x
-        self.y = y
-        self.md = md
-        self.zone_top = []
-        self.zone_bot = []
-        self.zk = []
-        self.zp = []
+@dataclass
+class WellData:
+    name: str
+    alt: float
+    x: float
+    y: float
+    md: float
+    zone_top: List[float] = field(default_factory=list)
+    zone_bot: List[float] = field(default_factory=list)
+    zk: List[float] = field(default_factory=list)
+    zp: List[float] = field(default_factory=list)
 
     def __str__(self):
         return f'"{self.name}" {self.alt} {self.x} {self.y} {self.md}'

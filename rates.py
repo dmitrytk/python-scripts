@@ -25,7 +25,7 @@ months_names = [
 
 
 def main():
-    df = pd.read_excel(INPUT_FILE, sheet_name='data')
+    df = pd.read_excel(INPUT_FILE)
     wb = op.Workbook()
     ws = wb.active
     ws.append(['Месяц'] + ['Параметр'] + [i for i in range(1, 32)])

@@ -18,13 +18,13 @@ import pandas as pd
 from runner import run
 
 
-INPUT_FILE = 'incline.xlsx'
-OUTPUT_DIR = 'inc'
-INCL_SHEET_NAME = 'INCL'
-HEADS_SHEET_NAME = 'HEADS'
-
-
 def main():
+
+    INPUT_FILE = 'incline.xlsx'
+    OUTPUT_DIR = 'inc'
+    INCL_SHEET_NAME = 'INCL'
+    HEADS_SHEET_NAME = 'HEADS'
+
     df_incl = pd.read_excel(INPUT_FILE, sheet_name=INCL_SHEET_NAME)
     df_heads = pd.read_excel(INPUT_FILE, sheet_name=HEADS_SHEET_NAME)
 

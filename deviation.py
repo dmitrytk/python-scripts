@@ -1,14 +1,19 @@
+#!/usr/bin/env python
+"""
+Read data from deviation files
+"""
+
 import os
 import re
 
 from runner import run
 
-DEVIATION_FOLDER = 'dev'
-OUTPUT_FILE = 'result.txt'
-OUTPUT_FILE2 = 'dev.txt'
-
 
 def main():
+    DEVIATION_FOLDER = 'dev'
+    OUTPUT_FILE = 'result.txt'
+    OUTPUT_FILE2 = 'dev.txt'
+
     res = ''
     res_dev = 'WELL\tMD\tX\tY\tZ\tTVD\tDX\tDY\tAZIM\tINCL\tDLS\n'
     files = os.listdir(DEVIATION_FOLDER)

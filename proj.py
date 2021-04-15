@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 """
 Convert coordinates between projections
 Get data from clipboard. Result copied to clipboard.
@@ -17,6 +18,7 @@ from math import ceil, floor
 
 import pyperclip
 from pyproj import Transformer
+from pyproj import CRS
 
 from runner import run
 
@@ -41,42 +43,41 @@ def dec2deg(data):
     second = round((decimal - degree - minute / 60) * 3600,
                    2) if positive else round((degree - decimal - minute / 60) * 3600, 2)
     # Add leading zero if < 10
-    degree = f'0{degree}' if degree < 10 else degree
-    minute = f'0{minute}' if minute < 10 else minute
-    second = f'0{second}' if second < 10 else second
+    degree = f'0{degree}' if degree < 10 and degree >= 0 else degree
+    minute = f'0{minute}' if minute < 10 and minute >= 0 else minute
+    second = f'0{second}' if second < 10 and second >= 0 else second
     return f'{degree} {minute} {second}'
 
 
-# Command line args
-# in_proj and out_proj required
-parser = argparse.ArgumentParser(description='Videos to images')
-parser.add_argument('in_proj', type=str, help='Input projection')
-parser.add_argument('out_proj', type=str, help='Output projection')
-parser.add_argument('-o', action="store", dest="out_deg")
-args = parser.parse_args()
-out_deg = args.out_deg == 'deg'
-
-# Projections
-PROJECTIONS = {
-    'wgs': 'EPSG:4326',
-    'sk': 'EPSG:4284',
-    # Other projections in loops below
-}
-
-# Add zones to proj
-# Gauss
-for i in range(20):
-    PROJECTIONS[f'z{i}'] = f'EPSG:{28400 + i}'
-
-# UTM
-for i in range(20, 50):
-    PROJECTIONS[f'{i}n'] = f'EPSG:{32600 + i}'
-
-transformer = Transformer.from_crs(
-    PROJECTIONS[args.in_proj], PROJECTIONS[args.out_proj])
-
-
 def main():
+
+    # Command line args
+    # in_proj and out_proj required
+    parser = argparse.ArgumentParser(description='Videos to images')
+    parser.add_argument('in_proj', type=str, help='Input projection')
+    parser.add_argument('out_proj', type=str, help='Output projection')
+    parser.add_argument('-o', action="store", dest="out_deg")
+    args = parser.parse_args()
+    out_deg = args.out_deg == 'deg'
+
+    # Projections
+    PROJECTIONS = {
+        'wgs': 'EPSG:4326',
+        'sk': 'EPSG:4284',
+        # Other projections in loops below
+    }
+
+    # Add zones to proj
+    # Gauss
+    for i in range(20):
+        PROJECTIONS[f'z{i}'] = f'EPSG:{28400 + i}'
+
+    # UTM
+    for i in range(20, 50):
+        PROJECTIONS[f'{i}n'] = f'EPSG:{32600 + i}'
+
+    transformer = Transformer.from_crs(
+        PROJECTIONS[args.in_proj], PROJECTIONS[args.out_proj])
     # Get content from clipboard
     content = pyperclip.paste()
     content = re.sub(r'° *|\' *', ' ', content)

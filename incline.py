@@ -13,9 +13,6 @@ import pandas as pd
 
 from runner import run
 
-INPUT_FILE = "incline.xlsx"
-OUTPUT_DIR = 'inc'
-
 
 def list_to_txt(output_file, content):
     """Write 2d list to text file"""
@@ -27,6 +24,10 @@ def list_to_txt(output_file, content):
 
 
 def main():
+
+    INPUT_FILE = "incline.xlsx"
+    OUTPUT_DIR = 'inc'
+
     df = pd.read_excel(INPUT_FILE)
     wells = set(df.WELL)
 

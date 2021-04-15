@@ -17,11 +17,12 @@ import sqlite3
 from runner import run
 
 
-INPUT_FILE = os.path.join(os.environ['USERPROFILE'], 'Desktop', 'out.csv')
-OUTPUT_FILE = os.path.join(os.environ['USERPROFILE'], 'Desktop', 'result.xlsx')
-
-
 def main():
+
+    INPUT_FILE = os.path.join(os.environ['USERPROFILE'], 'Desktop', 'out.csv')
+    OUTPUT_FILE = os.path.join(
+        os.environ['USERPROFILE'], 'Desktop', 'result.xlsx')
+
     # Update input file
     with open(INPUT_FILE, 'r') as file:
         content = file.read()

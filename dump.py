@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Dump Excel file to postgresql 'temp' database
+Dump Excel file to postgresql database
 """
 
 import os
@@ -11,13 +11,13 @@ from sqlalchemy import create_engine
 import util
 from runner import run
 
-args = util.get_args()
-INPUT_FILE = args.file or 'data.xlsx'
-DB = args.db or 'temp'
-TABLE = args.table or 'temp'
-
 
 def main():
+    args = util.get_args()
+    INPUT_FILE = args.file or 'data.xlsx'
+    DB = args.db or 'temp'
+    TABLE = args.table or 'temp'
+
     # Connection params
     file = os.path.join(os.environ['USERPROFILE'],
                         'Desktop', 'Scripts', INPUT_FILE)
